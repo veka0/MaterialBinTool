@@ -18,6 +18,8 @@ public class SamplerDefinition {
     public boolean hasDefaultTexture;
     public String defaultTexture; //white
 
+    public boolean hasUnknownProperty; // 0
+
     public boolean hasCustomTypeInfo;
     public CustomTypeInfo customTypeInfo;
 
@@ -38,6 +40,8 @@ public class SamplerDefinition {
         if (hasDefaultTexture) {
             defaultTexture = buf.readStringLE();
         }
+
+        hasUnknownProperty = buf.readBoolean();
 
         hasCustomTypeInfo = buf.readBoolean();
         if (hasCustomTypeInfo) {
@@ -62,6 +66,8 @@ public class SamplerDefinition {
             buf.writeStringLE(defaultTexture);
         }
 
+        buf.writeBoolean(hasUnknownProperty);
+
         buf.writeBoolean(hasCustomTypeInfo);
         if (hasCustomTypeInfo) {
             buf.writeStringLE(customTypeInfo.name);
@@ -83,6 +89,7 @@ public class SamplerDefinition {
                 && unknownByte == that.unknownByte
                 && hasDefaultTexture == that.hasDefaultTexture
                 && hasCustomTypeInfo == that.hasCustomTypeInfo
+                && hasUnknownProperty == that.hasUnknownProperty
                 && Objects.equals(textureFormat, that.textureFormat)
                 && Objects.equals(defaultTexture, that.defaultTexture)
                 && Objects.equals(customTypeInfo, that.customTypeInfo);
